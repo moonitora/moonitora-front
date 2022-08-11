@@ -29,11 +29,17 @@ export default function Navbar() {
             <div className="flex justify-between my-2">
                 <div className="flex">
                     <img src={moonitora} alt="" className="w-40 my-auto" />
-                    <div className="flex my-auto font-inter text-xs text-gray-700 gap-4 ml-4">
-                        <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/agendamento")}>Agendamento</p>
-                        <p className="hover:cursor-pointer">Minhas monitorias</p>
-                        <p className="hover:cursor-pointer">Relatório</p>
-                    </div>
+                    { localStorage.getItem("login_type") === "monitor" ?
+                        (<div className="flex my-auto font-inter text-xs text-gray-700 gap-4 ml-4">
+                            <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/agendamento")}>Agendamento</p>
+                            <p className="hover:cursor-pointer">Minhas monitorias</p>
+                            <p className="hover:cursor-pointer">Relatório</p>
+                        </div>)
+                        :
+                        (<div className="flex my-auto font-inter text-xs text-gray-700 gap-4 ml-4">
+                            <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/agendamento")}>Gerenciar monitores</p>
+                        </div>)
+                    }
                 </div>
                 <div className="my-auto">
                     <img src={login} className="w-8 my-auto mx-4 hover:cursor-pointer" alt="" onClick={handleClick} />

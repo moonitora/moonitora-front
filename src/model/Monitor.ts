@@ -3,5 +3,5 @@ export class Monitor {
     ra!: string
     email!: string
     departamento!: string
-    curso!: number
+    adm!: number
 }

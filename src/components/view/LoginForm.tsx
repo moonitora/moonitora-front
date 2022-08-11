@@ -19,6 +19,7 @@ export default function LoginForm() {
         api_login(email, password, type === "monitor" ? 0 : 1, (response: LoginResponse) => {
             if(response.status) {
                 setCookies("access_token", response.jwt);
+                localStorage.setItem("login_type", type!);
                 window.location.href = "/dashboard"
             } else {
                 alert(response.message);
