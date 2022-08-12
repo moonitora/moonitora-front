@@ -1,5 +1,6 @@
 import { Monitor } from "../model/Monitor";
 import Departamento from "../model/Departamento";
+import Horario from "../model/Horario";
 
 export const api_url = "https://blooming-coast-08475.herokuapp.com/https://moonitora.herokuapp.com"
 
@@ -40,4 +41,14 @@ export function fetch_departamentos(token: string, callback: (resp: Departamento
         },
         method: 'GET'
     }).then(r => r.json()).then(r => callback(r as Departamento[]))
+}
+
+export function fetch_horarios(monitor: string, token: string, callback: (resp: Horario[]) => void) {
+    fetch(api_url + "/horario?monitor=" + monitor, {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+        method: 'GET'
+    }).then(r => r.json()).then(r => callback(r as Horario[]))
 }
