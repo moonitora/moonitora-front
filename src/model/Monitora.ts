@@ -1,10 +1,14 @@
 import { Monitor } from "./Monitor"
 
 export class Monitoria {
-    monitor!: Monitor
+    id!: string
+    monitor!: string
+    departamento!: number
     conteudo!: string
-    dia!: number
-    mes!: number
-    ano!: number
-    ra_aluno!: string
+    disciplina!: string
+    horario!: string
+    aluno_nome!: string
+    aluno_ra!: string
+    data!: string
+
 }

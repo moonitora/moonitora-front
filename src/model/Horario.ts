@@ -1,5 +1,6 @@
 export default class Horario {
     monitor!: string
+    id!: string
     dia_da_semana!: number
     inicio_horas!: number
     inicio_minutos!: number

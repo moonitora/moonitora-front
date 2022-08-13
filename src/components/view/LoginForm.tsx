@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Cookies, useCookies } from "react-cookie";
 import { useSearchParams } from "react-router-dom";
-import {login as api_login, LoginResponse} from "../../api/api"
+import {login as api_login, AuthResponse} from "../../api/api"
 
 export default function LoginForm() {
     const [email, setEmail] = useState('')
@@ -16,7 +16,7 @@ export default function LoginForm() {
         if(email.trim().length <= 0 && password.trim().length <= 0) {
             alert("Preencha todos os campos");
         }
-        api_login(email, password, type === "monitor" ? 0 : 1, (response: LoginResponse) => {
+        api_login(email, password, type === "monitor" ? 0 : 1, (response: AuthResponse) => {
             if(response.status) {
                 setCookies("access_token", response.jwt);
                 localStorage.setItem("login_type", type!);
