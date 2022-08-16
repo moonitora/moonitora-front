@@ -9,9 +9,7 @@ export default function Navbar() {
     const [cookies] = useCookies();
 
     const handleClick = () => {
-        if(!isLoggedIn()) {
-            window.location.href = "/logintype"
-        }
+        window.location.href = "/logintype"
     }
 
     function isLoggedIn() {
@@ -34,6 +32,7 @@ export default function Navbar() {
                             <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/agendamento")}>Agendamento</p>
                             <p className="hover:cursor-pointer">Minhas monitorias</p>
                             <p className="hover:cursor-pointer">Relatório</p>
+                            <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/horarios")}>Meus horarios</p>
                         </div>)
                         :
                         (<div className="flex my-auto font-inter text-xs text-gray-700 gap-4 ml-4">

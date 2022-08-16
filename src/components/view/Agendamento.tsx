@@ -4,7 +4,7 @@ import Dropdown from "../Dropdown";
 import {fetch_departamentos, fetch_horarios, fetch_monitores, post_monitoria} from "../../api/api";
 import {useCookies} from "react-cookie";
 import {Monitor} from "../../model/Monitor";
-import Horario, {translate} from "../../model/Horario";
+import Horario, {getWeekday, translate} from "../../model/Horario";
 import Navbar from "../Navbar";
 
 export default function Agendamento() {
@@ -45,7 +45,7 @@ export default function Agendamento() {
 
     function handleDateChange(e: any) {
             let date = new Date(e.target.value);
-            if(date.getUTCDay() !== horario.value.dia_da_semana) {
+            if(date.getUTCDay() !== getWeekday(horario.label.split(':')[0])) {
                 alert("Dia da semana não corresponde.")
                 return
             }
@@ -58,7 +58,6 @@ export default function Agendamento() {
         }
         fetch_horarios(monitor.value, cookies.access_token, resp => {
             setAvailableHorarios(resp.body)
-            console.log(resp)
         })
     }, [monitor])
 
@@ -83,7 +82,15 @@ export default function Agendamento() {
                 alert(response.message)
                 return
             }
-
+            if (response.status) {
+                setArea(undefined)
+                setConteudo("")
+                setDisciplina("")
+                setHorario("")
+                setAlunoRA("")
+                setAlunoNome("")
+            }
+            alert(response.message)
         })
     }
 
@@ -130,6 +137,7 @@ export default function Agendamento() {
                         <div>
                             <p className="text-xs mb-1 mt-8">Disciplina:</p>
                             <input
+                                value={disciplina}
                                 onChange={(e) => setDisciplina(e.target.value)}
                                 className="p-1 pl-2 rounded-md outline-none border-[1px] border-moonitora-cyan text-xs w-full h-8"
                             />
@@ -137,6 +145,7 @@ export default function Agendamento() {
                         <div>
                             <p className="text-xs mb-1 mt-8">Conteúdo:</p>
                             <input
+                                value={conteudo}
                                 onChange={(e) => setConteudo(e.target.value)}
                                 className="p-1 pl-2 rounded-md outline-none border-[1px] border-moonitora-cyan text-xs w-full h-8"
                             />
@@ -145,6 +154,7 @@ export default function Agendamento() {
                             <div className="w-1/3">
                                 <p className="text-xs mb-1 mt-8">Nome completo do aluno:</p>
                                 <input
+                                    value={alunoNome}
                                     onChange={(e) => setAlunoNome(e.target.value)}
                                     className="p-1 pl-2 rounded-md outline-none border-[1px] border-moonitora-cyan text-xs w-full h-8"
                                 />
@@ -152,6 +162,7 @@ export default function Agendamento() {
                             <div className="w-1/3">
                                 <p className="text-xs mb-1 mt-8">RA do aluno:</p>
                                 <input
+                                    value={raAluno}
                                     onChange={(e) => setAlunoRA(e.target.value)}
                                     className="p-1 pl-2 rounded-md outline-none border-[1px] border-moonitora-cyan text-xs w-full h-8"
                                 />

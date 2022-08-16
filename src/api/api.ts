@@ -54,6 +54,16 @@ export function fetch_horarios(monitor: string, token: string, callback: (resp: 
     }).then(r => r.json()).then(r => callback(r as Response))
 }
 
+export function delete_horario(id: string, token: string, callback: (err: Response) => void) {
+    fetch(api_url + "/horario?id=" + id, {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+        method: 'DELETE'
+    }).then(r => r.json()).then(r => callback(r as Response))
+}
+
 export function post_monitoria(departamento: number, monitor: string, horario: string, disciplina: string, conteudo: string, aluno_nome: string, aluno_ra: string, data: string, token: string, callback: (response: Response) => void) {
     fetch(api_url + "/monitoria" + monitor, {
         headers: {
@@ -75,3 +85,45 @@ export function post_monitoria(departamento: number, monitor: string, horario: s
         })
     })
 }
+
+export function post_horario(horario: Horario, token: string, callback: (response: Response) => void) {
+    fetch(api_url + "/horario", {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+        method: 'POST',
+        body: JSON.stringify(horario)
+    }).then(response => response.json()).then(response => callback(response as Response));
+}
+
+export const dias_da_semana = [
+    {
+        value: 0,
+        label: "Domingo",
+    },
+    {
+        value: 1,
+        label: "Segunda-feira"
+    },
+    {
+        value: 2,
+        label: "Terça-feira"
+    },
+    {
+        value: 3,
+        label: "Quarta-feira"
+    },
+    {
+        value: 4,
+        label: "Quinta-feira"
+    },
+    {
+        value: 5,
+        label: "Sexta-feira"
+    },
+    {
+        value: 6,
+        label: "Sábado"
+    }
+]

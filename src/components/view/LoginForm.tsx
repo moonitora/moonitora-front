@@ -15,11 +15,14 @@ export default function LoginForm() {
     function login() {
         if(email.trim().length <= 0 && password.trim().length <= 0) {
             alert("Preencha todos os campos");
+            return
         }
         api_login(email, password, type === "monitor" ? 0 : 1, (response: AuthResponse) => {
             if(response.status) {
                 setCookies("access_token", response.jwt);
                 localStorage.setItem("login_type", type!);
+                localStorage.setItem("email", response.body.email);
+                localStorage.setItem("nome", response.body.nome);
                 window.location.href = "/dashboard"
             } else {
                 alert(response.message);

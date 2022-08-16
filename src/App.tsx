@@ -5,6 +5,7 @@ import Dashboard from './components/view/Dashboard';
 import LoginChoice from './components/view/LoginChoice';
 import LoginForm from './components/view/LoginForm';
 import Agendamento from "./components/view/Agendamento";
+import Horarios from "./components/view/Horarios";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
                   <Route path="/logintype" element={<LoginChoice/>}/>
                   <Route path="/login" element={<LoginForm/>}/>
                   <Route path="/agendamento" element={<Agendamento/>}/>
+                  <Route path="/horarios" element={<Horarios/>}/>
               </Routes>
           </BrowserRouter>
       </div>
