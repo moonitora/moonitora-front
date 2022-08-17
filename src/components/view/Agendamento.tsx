@@ -6,6 +6,7 @@ import {useCookies} from "react-cookie";
 import {Monitor} from "../../model/Monitor";
 import Horario, {getWeekday, translate} from "../../model/Horario";
 import Navbar from "../Navbar";
+import {Monitoria} from "../../model/Monitora";
 
 export default function Agendamento() {
     const [area, setArea] = useState<any>();
@@ -77,18 +78,34 @@ export default function Agendamento() {
             return;
         }
 
-        post_monitoria(area, monitor, horario, disciplina, conteudo, alunoNome, raAluno, data, cookies.access_token, (response) => {
+        let monitoria = new Monitoria()
+        monitoria.departamento = area.value;
+        monitoria.monitor = monitor.value;
+        monitoria.horario = horario.value;
+        monitoria.disciplina = disciplina;
+        monitoria.conteudo = conteudo;
+        monitoria.aluno_nome = alunoNome;
+        monitoria.aluno_ra = raAluno;
+        monitoria.data = data;
+        monitoria.id = "";
+        monitoria.marcada_por = "";
+
+        console.log(JSON.stringify(monitoria))
+
+        post_monitoria(monitoria, cookies.access_token, (response) => {
             if (!response.status) {
                 alert(response.message)
                 return
             }
             if (response.status) {
-                setArea(undefined)
-                setConteudo("")
-                setDisciplina("")
-                setHorario("")
-                setAlunoRA("")
-                setAlunoNome("")
+                setArea(undefined);
+                setConteudo("");
+                setDisciplina("");
+                setHorario(undefined);
+                setMonitor(undefined);
+                setAlunoRA("");
+                setAlunoNome("");
+                setData("");
             }
             alert(response.message)
         })
@@ -123,8 +140,7 @@ export default function Agendamento() {
                         />
 
                         <Dropdown
-                            onChange={() => {
-                            }}
+                            onChange={() => setData("")}
                             placeholder="Selecione um horário"
                             disabled={monitor === undefined || availableHorarios.length === 0}
                             value={horario}

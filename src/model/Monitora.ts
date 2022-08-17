@@ -10,5 +10,6 @@ export class Monitoria {
     aluno_nome!: string
     aluno_ra!: string
     data!: string
-
+    marcada_por!: string
+    status!: number
 }

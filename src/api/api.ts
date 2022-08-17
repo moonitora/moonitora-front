@@ -1,6 +1,7 @@
 import { Monitor } from "../model/Monitor";
 import Departamento from "../model/Departamento";
 import Horario from "../model/Horario";
+import {Monitoria} from "../model/Monitora";
 
 export const api_url = "https://blooming-coast-08475.herokuapp.com/https://moonitora.herokuapp.com"
 
@@ -64,26 +65,15 @@ export function delete_horario(id: string, token: string, callback: (err: Respon
     }).then(r => r.json()).then(r => callback(r as Response))
 }
 
-export function post_monitoria(departamento: number, monitor: string, horario: string, disciplina: string, conteudo: string, aluno_nome: string, aluno_ra: string, data: string, token: string, callback: (response: Response) => void) {
-    fetch(api_url + "/monitoria" + monitor, {
+export function post_monitoria(monitoria: Monitoria, token: string, callback: (response: Response) => void) {
+    fetch(api_url + "/monitoria", {
         headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + token,
         },
         method: 'POST',
-        body: JSON.stringify({
-            id: "",
-            marcada_por: "",
-            departamento: departamento,
-            monitor: monitor,
-            horario: horario,
-            disciplina: disciplina,
-            conteudo: conteudo,
-            aluno_ra: aluno_ra,
-            aluno_nome: aluno_nome,
-            data: data,
-        })
-    })
+        body: JSON.stringify(monitoria)
+    }).then(response => response.json()).then(response => callback(response as Response))
 }
 
 export function post_horario(horario: Horario, token: string, callback: (response: Response) => void) {
@@ -94,6 +84,16 @@ export function post_horario(horario: Horario, token: string, callback: (respons
         },
         method: 'POST',
         body: JSON.stringify(horario)
+    }).then(response => response.json()).then(response => callback(response as Response));
+}
+
+export function fetch_monitorias(monitor: string, token: string, callback: (response: Response) => void) {
+    fetch(api_url + "/monitorias?monitor=" + monitor, {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+        method: 'GET',
     }).then(response => response.json()).then(response => callback(response as Response));
 }
 

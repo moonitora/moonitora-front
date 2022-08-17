@@ -30,13 +30,13 @@ export default function Navbar() {
                     { localStorage.getItem("login_type") === "monitor" ?
                         (<div className="flex my-auto font-inter text-xs text-gray-700 gap-4 ml-4">
                             <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/agendamento")}>Agendamento</p>
-                            <p className="hover:cursor-pointer">Minhas monitorias</p>
+                            <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/monitorias")}>Minhas monitorias</p>
                             <p className="hover:cursor-pointer">Relatório</p>
                             <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/horarios")}>Meus horarios</p>
                         </div>)
                         :
                         (<div className="flex my-auto font-inter text-xs text-gray-700 gap-4 ml-4">
-                            <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/agendamento")}>Gerenciar monitores</p>
+                            <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/cadastro")}>Cadastrar monitor(a)</p>
                         </div>)
                     }
                 </div>
