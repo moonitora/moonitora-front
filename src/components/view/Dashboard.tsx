@@ -9,7 +9,7 @@ export default function Dashboard() {
         <div>
             <Navbar/>
             { cookies.access_token === undefined ?
-                <div className="flex justify-center font-inte ">
+                <div className="flex justify-center font-inter ">
                     <p className="text-6xl text-gray-300 mt-32 font-bold">Faça login para continuar</p>
                 </div>
             :

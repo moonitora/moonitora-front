@@ -7,6 +7,7 @@ import LoginForm from './components/view/LoginForm';
 import Agendamento from "./components/view/Agendamento";
 import Horarios from "./components/view/Horarios";
 import MonitoriasOverview from "./components/view/MonitoriasOverview";
+import CadastrarMonitor from "./components/view/CadastrarMonitor";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
                   <Route path="/agendamento" element={<Agendamento/>}/>
                   <Route path="/horarios" element={<Horarios/>}/>
                   <Route path="/monitorias" element={<MonitoriasOverview/>}/>
+                  <Route path="/cadastro" element={<CadastrarMonitor/>}/>
               </Routes>
           </BrowserRouter>
       </div>

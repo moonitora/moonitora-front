@@ -19,6 +19,10 @@ export default function LoginForm() {
         }
         api_login(email, password, type === "monitor" ? 0 : 1, (response: AuthResponse) => {
             if(response.status) {
+                if(response.body.adm === 0 && type! === "adm") {
+                    alert("Você não tem permissão para isso.");
+                    return
+                }
                 setCookies("access_token", response.jwt);
                 localStorage.setItem("login_type", type!);
                 localStorage.setItem("email", response.body.email);

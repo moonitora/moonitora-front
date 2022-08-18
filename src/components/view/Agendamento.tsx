@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
-import {Box, FormControl, InputLabel, MenuItem, NativeSelect, Select} from "@mui/material";
+import {Box, FormControl, InputLabel, MenuItem, NativeSelect, responsiveFontSizes, Select} from "@mui/material";
 import Dropdown from "../Dropdown";
-import {fetch_departamentos, fetch_horarios, fetch_monitores, post_monitoria} from "../../api/api";
+import {check_disponibility, fetch_departamentos, fetch_horarios, fetch_monitores, post_monitoria} from "../../api/api";
 import {useCookies} from "react-cookie";
 import {Monitor} from "../../model/Monitor";
 import Horario, {getWeekday, translate} from "../../model/Horario";
@@ -46,11 +46,24 @@ export default function Agendamento() {
 
     function handleDateChange(e: any) {
             let date = new Date(e.target.value);
+            if (date < (new Date())) {
+                alert("Selecione um dia válido.")
+                return
+            }
             if(date.getUTCDay() !== getWeekday(horario.label.split(':')[0])) {
                 alert("Dia da semana não corresponde.")
                 return
             }
-            setData(e.target.value)
+
+            let value = e.target.value
+
+            check_disponibility(value, horario.value, cookies.access_token, (response) => {
+                if(response.status) {
+                    setData(value)
+                } else {
+                    alert(response.message)
+                }
+            })
     }
 
     useEffect(() => {

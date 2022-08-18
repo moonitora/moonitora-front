@@ -61,11 +61,12 @@ export function delete_horario(id: string, token: string, callback: (err: Respon
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + token,
         },
-        method: 'DELETE'
+        method: 'DELETE',
     }).then(r => r.json()).then(r => callback(r as Response))
 }
 
 export function post_monitoria(monitoria: Monitoria, token: string, callback: (response: Response) => void) {
+    console.log(JSON.stringify(monitoria))
     fetch(api_url + "/monitoria", {
         headers: {
             'Content-Type': 'application/json',
@@ -73,7 +74,10 @@ export function post_monitoria(monitoria: Monitoria, token: string, callback: (r
         },
         method: 'POST',
         body: JSON.stringify(monitoria)
-    }).then(response => response.json()).then(response => callback(response as Response))
+    }).then(response => {
+        console.log(response)
+        return response.json()
+    }).then(response => callback(response as Response))
 }
 
 export function post_horario(horario: Horario, token: string, callback: (response: Response) => void) {
@@ -83,7 +87,7 @@ export function post_horario(horario: Horario, token: string, callback: (respons
             Authorization: 'Bearer ' + token,
         },
         method: 'POST',
-        body: JSON.stringify(horario)
+        body: JSON.stringify(horario),
     }).then(response => response.json()).then(response => callback(response as Response));
 }
 
@@ -94,7 +98,43 @@ export function fetch_monitorias(monitor: string, token: string, callback: (resp
             Authorization: 'Bearer ' + token,
         },
         method: 'GET',
-    }).then(response => response.json()).then(response => callback(response as Response));
+    }).then(response => {
+        console.log(response)
+        return response.json()
+    }).then(response => callback(response as Response));
+}
+
+export function check_disponibility(data: string, horario: string, token: string, callback: (response: Response) => void) {
+    fetch(api_url + "/checkdisponibility", {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+        body: JSON.stringify({
+            horario: horario,
+            data: data,
+        }),
+        method: 'POST',
+    }).then(response => response.json())
+        .then(response => callback(response as Response));
+}
+
+export function post_monitor(monitor: Monitor, password: string, token: string, callback: (response: Response) => void) {
+    fetch(api_url + "/register", {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+        body: JSON.stringify({
+            monitor: monitor,
+            login: {
+                email: monitor.email,
+                password: password,
+            }
+        }),
+        method: 'POST',
+    }).then(response => response.json())
+        .then(response => callback(response as Response));
 }
 
 export const dias_da_semana = [
