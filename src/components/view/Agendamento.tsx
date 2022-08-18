@@ -16,13 +16,13 @@ export default function Agendamento() {
     const [availableHorarios, setAvailableHorarios] = useState<Horario[]>([])
 
 
-    const monitoresAdapted = availableMonitores.length > 0
+    const monitoresAdapted = availableMonitores != null && availableMonitores.length > 0
         ? availableMonitores.map((monitor) => {
             return {label: monitor.nome, value: monitor.email}
         })
         : [];
 
-    const horariosAdapted = availableHorarios.length > 0
+    const horariosAdapted = availableHorarios != null && availableHorarios.length > 0
         ? availableHorarios.map((horario) => {
             return {label: translate(horario), value: horario.id}
         })
@@ -70,6 +70,7 @@ export default function Agendamento() {
         if (monitor === undefined) {
             return
         }
+        setHorario(undefined)
         fetch_horarios(monitor.value, cookies.access_token, resp => {
             setAvailableHorarios(resp.body)
         })
@@ -82,6 +83,8 @@ export default function Agendamento() {
         fetch_monitores(area.value, cookies.access_token, resp => {
             setAvailableMonitores(resp.body);
         })
+        setMonitor(undefined)
+        setHorario(undefined)
     }, [area])
 
     function marcar_monitoria() {
@@ -146,7 +149,7 @@ export default function Agendamento() {
                             onChange={() => {
                             }}
                             placeholder="Selecione um monitor"
-                            disabled={area === undefined || availableMonitores.length === 0}
+                            disabled={area === undefined || (availableMonitores !== null && availableMonitores.length === 0)}
                             value={monitor}
                             setter={setMonitor}
                             options={monitoresAdapted}
@@ -155,7 +158,7 @@ export default function Agendamento() {
                         <Dropdown
                             onChange={() => setData("")}
                             placeholder="Selecione um horário"
-                            disabled={monitor === undefined || availableHorarios.length === 0}
+                            disabled={monitor === undefined || (availableHorarios !== null && availableHorarios.length === 0)}
                             value={horario}
                             setter={setHorario}
                             options={horariosAdapted}

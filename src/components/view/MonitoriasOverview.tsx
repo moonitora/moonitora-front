@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {Monitoria} from "../../model/Monitora";
-import {fetch_monitorias} from "../../api/api";
+import {fetch_monitorias, set_status} from "../../api/api";
 import {useCookies} from "react-cookie";
 import Navbar from "../Navbar";
 import Horario, {translate} from "../../model/Horario";
@@ -13,6 +13,32 @@ interface MonitoriaWithHorario {
 export default function MonitoriasOverview() {
     const [monitorias, setMonitorias] = useState<MonitoriaWithHorario[]>([])
     const [cookies, setCookies] = useCookies();
+
+    const change_monitoria_status = (monitoria: Monitoria, status: number) => {
+        switch(status) {
+            case 1:
+                if(!window.confirm("Você tem certeza que deseja confirmar a monitoria \"" + monitoria.conteudo + "\"?")) {
+                    return
+                }
+                break
+            case 2:
+                if(!window.confirm("Você tem certeza que deseja concluir a monitoria \"" + monitoria.conteudo + "\"?")) {
+                    return
+                }
+                break
+            case 3:
+                if(!window.confirm("Você tem certeza que deseja cancelar a monitoria \"" + monitoria.conteudo + "\"?")) {
+                    return
+                }
+                break
+        }
+        set_status(monitoria.id, status, cookies.access_token, (response) => {
+            if (response.status) {
+                window.location.href = "/monitorias";
+            }
+            alert(response.message);
+        })
+    }
 
     useEffect(() => {
         fetch_monitorias(localStorage.getItem("email")!, cookies.access_token, (response) => {
@@ -45,22 +71,43 @@ export default function MonitoriasOverview() {
                                     <p className="text-xs mb-4">Marcada por: {monitoria.monitoria.marcada_por}</p>
                                     {monitoria.monitoria.status === 0 ? <p className="text-xs mb-4">Status: <span className="text-yellow-400 font-bold">Aguardando confirmação</span></p>
                                         : monitoria.monitoria.status === 1 ?<p className="text-xs mb-4">Status: <span className="text-green-400 font-bold">Confirmada</span></p>
+                                            : monitoria.monitoria.status === 2 ?<p className="text-xs mb-4">Status: <span className="text-blue-400 font-bold">Concluída</span></p>
                                             : <p className="text-xs mb-4">Status: <span className="text-red-500">Cancelada</span></p>}
                                     <div className="justify-between flex">
                                         <div></div>
                                         <div>
                                             {monitoria.monitoria.status === 0 ?
                                                 <div className="flex gap-3">
-                                                    <p className="text-sm font-bold text-red-400 hover:cursor-pointer">Cancelar</p>
-                                                    <p className="text-sm font-bold text-green-400 hover:cursor-pointer">Confirmar</p>
+                                                    <p
+                                                        onClick={() => change_monitoria_status(monitoria.monitoria, 3)}
+                                                        className="text-sm font-bold text-red-400 hover:cursor-pointer">
+                                                        Cancelar
+                                                    </p>
+                                                    <p
+                                                        onClick={() => change_monitoria_status(monitoria.monitoria, 1)}
+                                                        className="text-sm font-bold text-green-400 hover:cursor-pointer">
+                                                        Confirmar
+                                                    </p>
                                                 </div>
                                                 : monitoria.monitoria.status === 1 ?
-                                                    <div>
-                                                        <p className="text-sm font-bold text-red-400 hover:cursor-pointer">Cancelar</p>
+                                                    <div className="flex gap-3">
+                                                        <p
+                                                            onClick={() => change_monitoria_status(monitoria.monitoria, 3)}
+                                                            className="text-sm font-bold text-red-400 hover:cursor-pointer">
+                                                            Cancelar
+                                                        </p>
+                                                        <p
+                                                            onClick={() => change_monitoria_status(monitoria.monitoria, 2)}
+                                                            className="text-sm font-bold text-blue-400 hover:cursor-pointer">
+                                                            Marcar como concluída
+                                                        </p>
                                                     </div>
                                                     :
                                                     <div>
-                                                        <p className="text-sm font-bold text-red-400 hover:cursor-pointer">Cancelar</p>
+                                                        <p
+                                                            onClick={() => change_monitoria_status(monitoria.monitoria, 3)}
+                                                            className="text-sm font-bold text-red-400 hover:cursor-pointer">Cancelar
+                                                        </p>
                                                     </div>}
                                         </div>
                                     </div>

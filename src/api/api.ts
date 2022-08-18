@@ -25,6 +25,27 @@ export function login(email: string, password: string, type: number, callback: (
     .then(response => callback(response as AuthResponse));
 }
 
+export function confirm_monitoria(monitoria: string, token: string, callback: (response: Response) => void) {
+    fetch(api_url + "/monitoria/confirm", {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+        method: 'GET'
+    }).then(r => r.json()).then(r => callback(r as Response))
+}
+
+export function set_status(monitoria: string, status: number, token: string, callback: (response: Response) => void) {
+    let route = status === 1 ? "confirm" : status === 2 ? "conclude" : "cancel"
+    fetch(api_url + "/monitoria/" + route + "?monitoria=" + monitoria, {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+        method: 'GET'
+    }).then(r => r.json()).then(r => callback(r as Response))
+}
+
 export function fetch_monitores(departamento: string, token: string, callback: (resp: Response) => void) {
     fetch(api_url + "/monitores?departamento=" + departamento, {
         headers: {
