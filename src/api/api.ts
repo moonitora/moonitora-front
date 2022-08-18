@@ -3,7 +3,7 @@ import Departamento from "../model/Departamento";
 import Horario from "../model/Horario";
 import {Monitoria} from "../model/Monitora";
 
-export const api_url = "https://blooming-coast-08475.herokuapp.com/https://moonitora.herokuapp.com"
+export const api_url = "https://blooming-coast-08475.herokuapp.com/https://moonitora-api.herokuapp.com"
 
 export interface AuthResponse { status: boolean, jwt: String, body: any, message: string }
 export interface Response { status: boolean, body?: any, message: string }
