@@ -1,20 +1,24 @@
 import {useEffect, useState} from "react";
-import {Box, FormControl, InputLabel, MenuItem, NativeSelect, responsiveFontSizes, Select} from "@mui/material";
 import Dropdown from "../Dropdown";
 import {check_disponibility, fetch_departamentos, fetch_horarios, fetch_monitores, post_monitoria} from "../../api/api";
 import {useCookies} from "react-cookie";
 import {Monitor} from "../../model/Monitor";
 import Horario, {getWeekday, translate} from "../../model/Horario";
 import Navbar from "../Navbar";
-import {Monitoria} from "../../model/Monitora";
+import {Monitoria} from "../../model/Monitoria";
 
 export default function Agendamento() {
     const [area, setArea] = useState<any>();
 
-    const [departamentos, setDepartamentos] = useState<any[]>([]);
+    const [avaiableDepartamentos, setAvaableDepartamentos] = useState<any[]>([]);
     const [availableMonitores, setAvailableMonitores] = useState<Monitor[]>([]);
     const [availableHorarios, setAvailableHorarios] = useState<Horario[]>([])
 
+    const departamentosAdapted = avaiableDepartamentos != null && avaiableDepartamentos.length > 0
+        ? avaiableDepartamentos.map((departamento) => {
+            return {label: departamento.nome, value: departamento.id}
+        })
+        : [];
 
     const monitoresAdapted = availableMonitores != null && availableMonitores.length > 0
         ? availableMonitores.map((monitor) => {
@@ -32,15 +36,15 @@ export default function Agendamento() {
     const [horario, setHorario] = useState<any>();
     const [conteudo, setConteudo] = useState("");
     const [disciplina, setDisciplina] = useState("");
-    const [open, setOpen] = useState(false);
     const [cookies, setCookies] = useCookies();
     const [alunoNome, setAlunoNome] = useState("");
     const [raAluno, setAlunoRA] = useState("");
     const [data, setData] = useState("");
+    const [sala, setSala] = useState("");
 
     useEffect(() => {
         fetch_departamentos(cookies.access_token, (response) => {
-            setDepartamentos(response.body)
+            setAvaableDepartamentos(response.body)
         })
     }, [])
 
@@ -89,7 +93,7 @@ export default function Agendamento() {
 
     function marcar_monitoria() {
         if (area === undefined || horario === undefined || monitor === undefined
-            || conteudo.trim() === "" || disciplina.trim() === "") {
+            || conteudo.trim() === "" || disciplina.trim() === "" || sala.trim() === "") {
             alert("Preencha todos os campos");
             return;
         }
@@ -105,6 +109,7 @@ export default function Agendamento() {
         monitoria.data = data;
         monitoria.id = "";
         monitoria.marcada_por = "";
+        monitoria.sala = sala;
 
         console.log(JSON.stringify(monitoria))
 
@@ -143,7 +148,7 @@ export default function Agendamento() {
                             disabled={false}
                             value={area}
                             setter={setArea}
-                            options={departamentos}
+                            options={departamentosAdapted}
                         />
                         <Dropdown
                             onChange={() => {
@@ -179,6 +184,14 @@ export default function Agendamento() {
                             <input
                                 value={conteudo}
                                 onChange={(e) => setConteudo(e.target.value)}
+                                className="p-1 pl-2 rounded-md outline-none border-[1px] border-moonitora-cyan text-xs w-full h-8"
+                            />
+                        </div>
+                        <div>
+                            <p className="text-xs mb-1 mt-8">Sala do aluno:</p>
+                            <input
+                                value={sala}
+                                onChange={(e) => setSala(e.target.value)}
                                 className="p-1 pl-2 rounded-md outline-none border-[1px] border-moonitora-cyan text-xs w-full h-8"
                             />
                         </div>

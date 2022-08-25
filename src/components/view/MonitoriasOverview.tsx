@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Monitoria} from "../../model/Monitora";
+import {Monitoria} from "../../model/Monitoria";
 import {fetch_monitorias, set_status} from "../../api/api";
 import {useCookies} from "react-cookie";
 import Navbar from "../Navbar";
@@ -55,7 +55,7 @@ export default function MonitoriasOverview() {
         <div>
             <Navbar/>
             {monitorias !== null ?
-                <div>
+                <div className="pb-10">
                     <p className="text-2xl font-light py-10 px-10">Minhas monitorias</p>
                     <div className="grid-cols-3 grid gap-4 mx-16">
                         {monitorias.map((monitoria) => {

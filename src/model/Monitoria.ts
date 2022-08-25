@@ -1,5 +1,3 @@
-import { Monitor } from "./Monitor"
-
 export class Monitoria {
     id!: string
     monitor!: string
@@ -12,4 +10,5 @@ export class Monitoria {
     data!: string
     marcada_por!: string
     status!: number
+    sala!: string
 }

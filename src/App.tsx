@@ -7,7 +7,10 @@ import LoginForm from './components/view/LoginForm';
 import Agendamento from "./components/view/Agendamento";
 import Horarios from "./components/view/Horarios";
 import MonitoriasOverview from "./components/view/MonitoriasOverview";
-import CadastrarMonitor from "./components/view/CadastrarMonitor";
+import CadastrarMonitor from "./components/view/adm/CadastrarMonitor";
+import GerenciarMonitores from "./components/view/adm/GerenciarMonitores";
+import GerenciarSalas from "./components/view/adm/GerenciarSalas";
+import GerenciarDepartamentos from "./components/view/adm/GerenciarDepartamentos";
 
 function App() {
   return (
@@ -22,6 +25,10 @@ function App() {
                   <Route path="/horarios" element={<Horarios/>}/>
                   <Route path="/monitorias" element={<MonitoriasOverview/>}/>
                   <Route path="/cadastro" element={<CadastrarMonitor/>}/>
+                  <Route path="/monitores" element={<GerenciarMonitores/>}/>
+                  <Route path="/salas" element={<GerenciarSalas/>}/>
+                  <Route path="/departamentos" element={<GerenciarDepartamentos/>}/>
+
               </Routes>
           </BrowserRouter>
       </div>

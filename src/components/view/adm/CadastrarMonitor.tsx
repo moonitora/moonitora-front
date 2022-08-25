@@ -1,9 +1,9 @@
-import Navbar from "../Navbar";
-import Dropdown from "../Dropdown";
+import Navbar from "../../Navbar";
+import Dropdown from "../../Dropdown";
 import {useEffect, useState} from "react";
-import {fetch_departamentos, post_monitor} from "../../api/api";
+import {fetch_departamentos, post_monitor} from "../../../api/api";
 import {useCookies} from "react-cookie";
-import {Monitor} from "../../model/Monitor";
+import {Monitor} from "../../../model/Monitor";
 
 export default function CadastrarMonitor() {
     const [departamentos, setDepartamentos] = useState([])

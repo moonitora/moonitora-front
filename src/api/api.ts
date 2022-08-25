@@ -1,7 +1,7 @@
 import { Monitor } from "../model/Monitor";
 import Departamento from "../model/Departamento";
 import Horario from "../model/Horario";
-import {Monitoria} from "../model/Monitora";
+import {Monitoria} from "../model/Monitoria";
 
 export const api_url = "https://blooming-coast-08475.herokuapp.com/https://moonitora-api.herokuapp.com"
 
@@ -154,6 +154,32 @@ export function post_monitor(monitor: Monitor, password: string, token: string, 
             }
         }),
         method: 'POST',
+    }).then(response => response.json())
+        .then(response => callback(response as Response));
+}
+
+export function post_departamento(title: string, token: string, callback: (response: Response) => void) {
+    fetch(api_url + "/departamento", {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+        body: JSON.stringify({
+            id: "",
+            nome: title,
+        }),
+        method: 'POST',
+    }).then(response => response.json())
+        .then(response => callback(response as Response));
+}
+
+export function delete_departamento(id: string, token: string, callback: (response: Response) => void) {
+    fetch(api_url + "/departamento?departamento=" + id, {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+        },
+        method: 'DELETE',
     }).then(response => response.json())
         .then(response => callback(response as Response));
 }

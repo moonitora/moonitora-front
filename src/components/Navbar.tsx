@@ -31,12 +31,13 @@ export default function Navbar() {
                         (<div className="flex my-auto font-inter text-xs text-gray-700 gap-4 ml-4">
                             <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/agendamento")}>Agendamento</p>
                             <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/monitorias")}>Minhas monitorias</p>
-                            <p className="hover:cursor-pointer">Relatório</p>
                             <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/horarios")}>Meus horarios</p>
                         </div>)
                         :
                         (<div className="flex my-auto font-inter text-xs text-gray-700 gap-4 ml-4">
-                            <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/cadastro")}>Cadastrar monitor(a)</p>
+                            <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/monitores")}>Gerenciar monitores</p>
+                            <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/departamentos")}>Gerenciar departamentos</p>
+                            <p className="hover:cursor-pointer" onClick={() => redirectIfAuthenticated("/salas")}>Gerenciar salas</p>
                         </div>)
                     }
                 </div>
